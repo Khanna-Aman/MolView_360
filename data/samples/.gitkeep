@@ -1,0 +1,13 @@
+# Sample Molecules Directory
+# Place sample PDB and SDF files here for testing
+# 
+# Recommended samples:
+# - 1UBQ.pdb (Ubiquitin - small protein)
+# - 1CRN.pdb (Crambin - very small protein)
+# - caffeine.sdf (Small molecule)
+# - aspirin.sdf (Small molecule)
+#
+# Download from:
+# - RCSB PDB: https://www.rcsb.org/
+# - PubChem: https://pubchem.ncbi.nlm.nih.gov/
+

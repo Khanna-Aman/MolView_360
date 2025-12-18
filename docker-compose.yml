@@ -1,0 +1,52 @@
+# MolView 360 - Docker Compose Configuration
+# Development environment setup
+
+services:
+  # Frontend - React + Vite + 3Dmol.js
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    command: npm run dev -- --host
+
+  # Backend - FastAPI + RDKit
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./data:/app/data
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:///./data/molview.db
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+      - DEBUG=true
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # PostgreSQL (optional - for production-like setup)
+  # Uncomment when ready to test with PostgreSQL
+  # db:
+  #   image: postgres:15-alpine
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     - POSTGRES_USER=molview
+  #     - POSTGRES_PASSWORD=molview_dev
+  #     - POSTGRES_DB=molview
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:
+
